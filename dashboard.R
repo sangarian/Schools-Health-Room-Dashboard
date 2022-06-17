@@ -54,7 +54,7 @@ sidebar <- dashboardSidebar(
     
   ),
   selectInput('slct2',"Select Year", choices = list("2022", "2021", "2020", "2019", "2018", "2017"),selected = "2022"),
-  selectInput('slct3',"Select School", choices= list("School 1", "School 2"), selected = "School 1"),
+  selectInput('slct3',"Select School", choices= list("School1", "School2"), selected = "School1"),
   selectInput('slct4',"Select Category", choices = list("Student", "Teacher", "Other"), selected = "Student"),
   
   sidebarMenu(
@@ -133,7 +133,7 @@ server <- function(input, output) {
   
   #creating the valueBoxOutput content
   output$value1 <- renderValueBox({
-    a <- filter(df11,year==input$slct2)
+    a <- filter(df11,year==input$slct2,school==input$slct3)
     #some data manipulation to derive the values of KPI boxes
     b <- dplyr::count(a, category)
     total.studentvisits <- b$n[b$category=="Student"][1]
@@ -147,7 +147,7 @@ server <- function(input, output) {
   })
   
   output$value2 <- renderValueBox({
-    a <- filter(df11,year==input$slct2)
+    a <- filter(df11,year==input$slct2,school==input$slct3)
     b <- dplyr::count(a, category)
     # Please insert OR function here; Teacher OR teacher
     total.teachervisits <- b$n[b$category=="Teacher"][1]
@@ -160,7 +160,7 @@ server <- function(input, output) {
   })
   
   output$value3 <- renderValueBox({
-    a <- filter(df11,year==input$slct2)
+    a <- filter(df11,year==input$slct2,school==input$slct3)
     b <- dplyr::count(a, category)
     #Total visits by Others
     c <-  b %>% filter(category != "Teacher" & category != "Student")
@@ -179,7 +179,7 @@ server <- function(input, output) {
   
   output$complaintsbyAge <- renderPlot({
     df_plot <- df22 %>%
-      filter(year == input$slct2, category ==input$slct4) %>%
+      filter(school==input$slct3, year == input$slct2, category ==input$slct4) %>%
       group_by(complaint,age) %>%
       select(complaint, reported) %>%
       summarise_all(funs(sum)) %>%
@@ -199,7 +199,7 @@ server <- function(input, output) {
   output$complaintTrends <- renderPlot({
     target <- c("Fever", "Vomitting","Missed Breakfast","Headache", "Periods","Stomach Pain","Flu","Cough","Asthama","Blood Pressure Assessment","Back Pain")
     df_plot1 <- df22 %>%
-      filter(year == input$slct2, category ==input$slct4) %>%
+      filter(school==input$slct3, year == input$slct2, category ==input$slct4) %>%
       select(complaint,month,reported) %>%
       group_by(month,complaint) %>% 
       summarise(reported = sum(reported))%>%
@@ -215,7 +215,7 @@ server <- function(input, output) {
   
   output$datahead <- function(){
     df3 <- df22 %>%
-      filter(year == input$slct2, category ==input$slct4) %>%
+      filter(school==input$slct3,year == input$slct2, category ==input$slct4) %>%
       group_by(complaint) %>%
       select(complaint, reported) %>%
       summarise_all(funs(sum)) %>%
@@ -228,7 +228,7 @@ server <- function(input, output) {
   output$casesTrends <- renderPlot({
     target <- c("Fever", "Vomitting","Missed Breakfast","Headache", "Periods","Stomach Pain","Flu","Cough","Asthama","Blood Pressure Assessment","Back Pain")
     df_plot1 <- df22 %>%
-      filter(year == input$slct2, category ==input$slct4) %>%
+      filter(school==input$slct3,year == input$slct2, category ==input$slct4) %>%
       select(complaint,month,reported) %>%
       group_by(month,complaint) %>% 
       summarise(reported = sum(reported))%>%
