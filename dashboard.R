@@ -1,6 +1,6 @@
-"    .............................  NOTE......................................
+#   .............................  NOTE......................................
 
-DOWNLOAD THE SAMPLE DATA FROM THE FOLDER (Sample Data) AND SAVE IT IN YOUR WORKING DIRECTORY"
+# DOWNLOAD THE SAMPLE DATA FROM THE FOLDER (Sample Data) AND SAVE IT IN YOUR WORKING DIRECTORY
 
 
 
